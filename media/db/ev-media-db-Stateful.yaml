@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-media-db
+  namespace: default
+spec:
+  serviceName: ev-media-db-service
+  selector:
+    matchLabels:
+      role: media-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: media-db
+    spec:
+      containers:
+        - name: ev-media-db
+          image: mongo
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: ev-media-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-media-db-volume
+          persistentVolumeClaim:
+            claimName: ev-media-volume

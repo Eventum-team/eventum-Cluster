@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-users-ms
+  labels:
+    role: users-ms
+    tier: ms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: users-ms
+      tier: ms
+  template:
+    metadata:
+      labels:
+        role: users-ms
+        tier: ms
+    spec:
+      containers:
+        - name: ev-users-ms
+          image: vectorlineal/ev_users_ms:eventum_users_2
+          ports:
+            - containerPort: 3000

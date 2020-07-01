@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-events-ms
+  labels:
+    role: events-ms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: events-ms
+      tier: ms
+  template:
+    metadata:
+      labels:
+        role: events-ms
+        tier: ms
+    spec:
+      containers:
+      - name: ev-events-ms
+        image: jdiego55/ev-events-ms:3.0
+        ports:
+        - containerPort: 8000

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-comments-ms
+  labels:
+    role: comments-ms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: comments-ms
+      tier: ms
+  template:
+    metadata:
+      labels:
+        role: comments-ms
+        tier: ms
+    spec:
+      containers:
+        - name: ev-comments-ms
+          image: icquirogac/eventum:1.0
+          ports:
+            - containerPort: 8002

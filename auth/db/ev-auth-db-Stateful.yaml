@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-auth-db
+  namespace: default
+spec:
+  serviceName: ev-auth-db-service
+  selector:
+    matchLabels:
+      role: auth-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: auth-db
+    spec:
+      containers:
+        - name: ev-auth-db
+          image: jdiego55/ev-events-db:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5433
+          volumeMounts:
+            - name: ev-auth-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-auth-db-volume
+          persistentVolumeClaim:
+            claimName: ev-auth-volume

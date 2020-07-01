@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: ev-auth-ms
+  name: ev-auth-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: ev-auth-ms
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: ev-auth-ms
+    spec:
+      containers:
+      - args:
+        - bash
+        - -c
+        - python manage.py makemigrations && python manage.py migrate && gunicorn
+          -w 1 --bind 0.0.0.0:8001 api.wsgi
+        image: diarodriguezmo/ev-auth-ms
+        imagePullPolicy: ""
+        name: ev-auth-ms
+        ports:
+        - containerPort: 8001
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+status: {}

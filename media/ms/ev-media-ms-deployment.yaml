@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-media-ms
+  labels:
+    role: media-ms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: media-ms
+      tier: ms
+  template:
+    metadata:
+      labels:
+        role: media-ms
+        tier: ms
+    spec:
+      containers:
+        - name: ev-media-ms
+          image: majmartinezva/eventum-ms-media:v3
+          ports:
+            - containerPort: 3001

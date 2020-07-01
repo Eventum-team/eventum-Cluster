@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-users-db
+  namespace: default
+spec:
+  serviceName: ev-users-db-service
+  selector:
+    matchLabels:
+      role: users-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: users-db
+    spec:
+      containers:
+        - name: ev-users-db
+          image: postgres:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: ev-users-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-users-db-volume
+          persistentVolumeClaim:
+            claimName: ev-users-volume

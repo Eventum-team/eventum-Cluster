@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-groups-db
+  namespace: default
+spec:
+  serviceName: ev-groups-db-service
+  selector:
+    matchLabels:
+      role: groups-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: groups-db
+    spec:
+      containers:
+        - name: ev-groups-db
+          image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: ev-groups-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-groups-db-volume
+          persistentVolumeClaim:
+            claimName: ev-groups-volume

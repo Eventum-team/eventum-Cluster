@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-comments-db
+  namespace: default
+spec:
+  serviceName: ev-comments-db-service
+  selector:
+    matchLabels:
+      role: comments-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: comments-db
+    spec:
+      containers:
+        - name: ev-comments-db
+          image: mysql:5.7
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: ev-comments-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-comments-db-volume
+          persistentVolumeClaim:
+            claimName: ev-comments-volume

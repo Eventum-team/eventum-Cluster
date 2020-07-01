@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ev-auth-ms
+  labels:
+    role: auth-ms
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: auth-ms
+      tier: ms
+  template:
+    metadata:
+      labels:
+        role: auth-ms
+        tier: ms
+    spec:
+      containers:
+        - name: ev-auth-ms
+          # image: jdiego55/ev-events-ms:3.0
+          ports:
+            - containerPort: 8001

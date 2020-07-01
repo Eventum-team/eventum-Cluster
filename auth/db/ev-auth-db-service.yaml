@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ev-auth-db-service
+spec:
+  ports:
+    - port: 5433
+  selector:
+    role: auth-db

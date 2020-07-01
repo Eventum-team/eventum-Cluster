@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ev-events-db
+  namespace: default
+spec:
+  serviceName: ev-events-db-service
+  selector:
+    matchLabels:
+      role: events-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: events-db
+    spec:
+      containers:
+        - name: ev-events-db
+          image: jdiego55/ev-events-db:1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: ev-event-db-volume
+              mountPath: /data
+      volumes:
+        - name: ev-event-db-volume
+          persistentVolumeClaim:
+            claimName: ev-events-volume
